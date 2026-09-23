@@ -1,0 +1,1044 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="HouYiXun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="10 万个动态成绩，看起来需要堆或排序；但 0～600 的分数范围，让 601 个计数桶就能解决问题。附示例推演、正确性说明、复杂度对比与 C++ 实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶">
+<meta property="og:url" content="https://houyixun.github.io/2026/09/23/csp-j-2020-live-awards/index.html">
+<meta property="og:site_name" content="Path of Algorithms">
+<meta property="og:description" content="10 万个动态成绩，看起来需要堆或排序；但 0～600 的分数范围，让 601 个计数桶就能解决问题。附示例推演、正确性说明、复杂度对比与 C++ 实现。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://houyixun.github.io/img/posts/live-awards-buckets.svg">
+<meta property="article:published_time" content="2026-09-23T11:00:00.000Z">
+<meta property="article:modified_time" content="2026-09-23T11:00:00.000Z">
+<meta property="article:author" content="HouYiXun">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="CSP-J">
+<meta property="article:tag" content="时间复杂度">
+<meta property="article:tag" content="计数桶">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://houyixun.github.io/img/posts/live-awards-buckets.svg">
+  
+  
+  
+  <title>CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶 - Path of Algorithms</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"houyixun.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-09-23 19:00" pubdate>
+          2026年9月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>今天练习了 CSP-J 2020 的「直播获奖」。这道题最值得记住的地方，是选择算法之前，先把数据范围读完整。</p>
+<p>看到“不断加入成绩，实时求前若干名的最低分”，我首先想到的是排序和堆。但题目还有一个更关键的条件：<strong>成绩是 0～600 的整数，只有 601 种可能。</strong></p>
+<blockquote>
+<p><strong>本文的核心思路：</strong> 用计数桶记录每个分数有多少人，再从高分向低分累加，找到覆盖第 K 名的那个分数。</p>
+</blockquote>
+<!-- more -->
+
+<h2 id="01-·-先明确：我们究竟要查询什么？"><a href="#01-·-先明确：我们究竟要查询什么？" class="headerlink" title="01 · 先明确：我们究竟要查询什么？"></a>01 · 先明确：我们究竟要查询什么？</h2><p>题目链接：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P7072">洛谷 P7072 · CSP-J 2020 直播获奖</a>。</p>
+<p>每读入一个新成绩，都要输出此时的获奖分数线。已公布成绩的人数为 <code>i</code>，获奖百分比为 <code>w</code>，计划获奖人数就是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">K = max(1, ⌊i × w / 100⌋)<br></code></pre></td></tr></table></figure>
+
+<p>这里的 <code>⌊ ⌋</code> 表示向下取整。将当前所有成绩从高到低排列，<strong>第 K 名的成绩就是分数线</strong>。</p>
+<p>注意，“计划获奖人数”与“实际获奖人数”不一定相等。例如，当前成绩为 <code>600、500、500、200</code>，若计划取前 2 名，分数线就是 500，两个 500 分的选手都获奖，实际获奖人数为 3。</p>
+<p><strong>我们只需找出第 K 名的分数，无需逐个标记获奖选手，也无需给并列者重新编号。</strong></p>
+<h2 id="02-·-从数据范围选择算法"><a href="#02-·-从数据范围选择算法" class="headerlink" title="02 · 从数据范围选择算法"></a>02 · 从数据范围选择算法</h2><p>本题的约束可以概括为：</p>
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">范围</th>
+<th align="left">对算法选择的提示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">选手总数 <code>n</code></td>
+<td align="left">最大 100000</td>
+<td align="left">每次遍历全部已有选手，代价很高</td>
+</tr>
+<tr>
+<td align="left">成绩 <code>score</code></td>
+<td align="left">0～600 的整数</td>
+<td align="left">可以直接用数组下标表示分数</td>
+</tr>
+<tr>
+<td align="left">获奖百分比 <code>w</code></td>
+<td align="left">1～99 的整数</td>
+<td align="left">可以用整数乘除精确计算 K</td>
+</tr>
+</tbody></table>
+<h3 id="每次重新排序：重复工作太多"><a href="#每次重新排序：重复工作太多" class="headerlink" title="每次重新排序：重复工作太多"></a>每次重新排序：重复工作太多</h3><p>第 <code>i</code> 次插入后，对当前 <code>i</code> 个成绩调用一次 <code>std::sort()</code>，该轮排序的复杂度为 <code>O(i log i)</code>。把所有轮次加起来，总体为 <strong>O(n² log n)</strong>。</p>
+<p>前一轮已经排过的成绩，下一轮又要参与排序。对于 10 万次动态查询，这种做法难以满足时限。</p>
+<h3 id="对顶堆：可行，但不是本题最简洁的选择"><a href="#对顶堆：可行，但不是本题最简洁的选择" class="headerlink" title="对顶堆：可行，但不是本题最简洁的选择"></a>对顶堆：可行，但不是本题最简洁的选择</h3><p>可以用一个小根堆维护前 K 大成绩，用另一个大根堆维护其余成绩，并随 K 的变化调整两个堆的大小。这是通用的 <strong>O(n log n)</strong> 解法。</p>
+<p>不过，本题的分数范围很小。我们可以省去两个堆的平衡逻辑，直接数一数每个分数出现了几次。</p>
+<blockquote>
+<p><strong>不要把“更简单”理解为“一定更快”。</strong> 桶扫描与堆的实际速度取决于实现和数据；<code>600</code> 也不一定小于 <code>log n</code> 对应的操作代价。计数桶的优势在于充分利用值域，写法直接、内存占用小，也容易验证正确性。</p>
+</blockquote>
+<h2 id="03-·-用-601-个桶维护成绩分布"><a href="#03-·-用-601-个桶维护成绩分布" class="headerlink" title="03 · 用 601 个桶维护成绩分布"></a>03 · 用 601 个桶维护成绩分布</h2><p>令 <code>counts[s]</code> 表示当前获得 <code>s</code> 分的人数，下标从 0 到 600。</p>
+<p>新成绩到来时，只做一次更新：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">++counts[score];<br></code></pre></td></tr></table></figure>
+
+<p>查询时，从 600 分向 0 分扫描，累计人数。一旦累计人数不少于 K，当前分数就是答案。</p>
+<p><img src="/img/posts/live-awards-buckets.svg" srcset="/img/loading.gif" lazyload alt="计数桶示意：从高分向低分累加，累计人数首次达到 K 的分数即为分数线"></p>
+<p>以成绩 <code>600、500、500、200</code>、<code>K = 2</code> 为例：</p>
+<table>
+<thead>
+<tr>
+<th align="center">扫描到的分数</th>
+<th align="center">该分数人数</th>
+<th align="center">累计人数</th>
+<th align="left">是否已覆盖第 2 名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">600</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="left">否，继续向下</td>
+</tr>
+<tr>
+<td align="center">599～501</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="left">否，空桶不改变累计人数</td>
+</tr>
+<tr>
+<td align="center">500</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="left">是，分数线为 500</td>
+</tr>
+</tbody></table>
+<p>累计人数从 1 直接跳到了 3，这正好包含了分数相同的两名选手。因此，判断条件应当是 <strong><code>&gt;= K</code>，不能写成 <code>== K</code></strong>。</p>
+<h2 id="04-·-用一个完整过程检查思路"><a href="#04-·-用一个完整过程检查思路" class="headerlink" title="04 · 用一个完整过程检查思路"></a>04 · 用一个完整过程检查思路</h2><p>下面是一组自拟示例。设获奖率为 50%，成绩依次为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">200 300 300 100 600 200<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">已公布人数 i</th>
+<th align="center">新成绩</th>
+<th align="center">计划人数 K</th>
+<th align="left">当前成绩（降序，仅用于说明）</th>
+<th align="center">分数线</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">200</td>
+<td align="center">1</td>
+<td align="left">200</td>
+<td align="center">200</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">300</td>
+<td align="center">1</td>
+<td align="left">300，200</td>
+<td align="center">300</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">300</td>
+<td align="center">1</td>
+<td align="left">300，300，200</td>
+<td align="center">300</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">100</td>
+<td align="center">2</td>
+<td align="left">300，300，200，100</td>
+<td align="center">300</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">600</td>
+<td align="center">2</td>
+<td align="left">600，300，300，200，100</td>
+<td align="center">300</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">200</td>
+<td align="center">3</td>
+<td align="left">600，300，300，200，200，100</td>
+<td align="center">300</td>
+</tr>
+</tbody></table>
+<p>对应输入：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">6 50<br>200 300 300 100 600 200<br></code></pre></td></tr></table></figure>
+
+<p>对应输出：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">200 300 300 300 300 300<br></code></pre></td></tr></table></figure>
+
+<p>第 3 轮计划只有 1 人获奖，但分数线为 300，两个并列的 300 分选手都能获奖。第 5 轮则是计划 2 人、实际 3 人获奖。两种情况都不需要额外的特殊处理。</p>
+<h2 id="05-·-为什么这个算法一定正确？"><a href="#05-·-为什么这个算法一定正确？" class="headerlink" title="05 · 为什么这个算法一定正确？"></a>05 · 为什么这个算法一定正确？</h2><p>每读入一个成绩，就将对应桶加一。因此，处理完前 <code>i</code> 个成绩后，<code>counts[s]</code> 始终准确记录其中 <code>s</code> 分的人数。</p>
+<p>从高分向低分扫描，设首次使累计人数达到或超过 K 的分数为 <code>s</code>。此时：</p>
+<ul>
+<li><strong>严格高于 s 分的人数小于 K</strong>，否则此前就应该停止扫描。</li>
+<li><strong>不低于 s 分的人数至少为 K</strong>，因为当前累计人数已经达到 K。</li>
+</ul>
+<p>所以，第 K 名一定落在 <code>s</code> 分这一组里，分数线就是 <code>s</code>。</p>
+<p>又因为 <code>1 ≤ K ≤ i</code>，而所有桶的人数之和恰好为 <code>i</code>，扫描到 0 分之前或恰好在 0 分时，一定能够找到答案。</p>
+<h2 id="06-·-C-参考实现"><a href="#06-·-C-参考实现" class="headerlink" title="06 · C++ 参考实现"></a>06 · C++ 参考实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;array&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    std::ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    std::cin.<span class="hljs-built_in">tie</span>(<span class="hljs-literal">nullptr</span>);<br><br>    <span class="hljs-type">int</span> n, w;<br>    <span class="hljs-keyword">if</span> (!(std::cin &gt;&gt; n &gt;&gt; w)) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> MAX_SCORE = <span class="hljs-number">600</span>;<br>    std::array&lt;<span class="hljs-type">int</span>, MAX_SCORE + 1&gt; counts&#123;&#125;;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; ++i) &#123;<br>        <span class="hljs-type">int</span> score;<br>        std::cin &gt;&gt; score;<br>        ++counts[score];<br><br>        <span class="hljs-comment">// 正整数除法向下取整；至少有 1 人获奖。</span><br>        <span class="hljs-type">const</span> <span class="hljs-type">int</span> target = std::<span class="hljs-built_in">max</span>(<span class="hljs-number">1</span>, i * w / <span class="hljs-number">100</span>);<br>        <span class="hljs-type">int</span> accumulated = <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> s = MAX_SCORE; s &gt;= <span class="hljs-number">0</span>; --s) &#123;<br>            accumulated += counts[s];<br>            <span class="hljs-keyword">if</span> (accumulated &gt;= target) &#123;<br>                std::cout &lt;&lt; s &lt;&lt; (i == n ? <span class="hljs-string">&#x27;\n&#x27;</span> : <span class="hljs-string">&#x27; &#x27;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><a href="/downloads/code/csp-j-2020-live-awards.cpp">下载完整 C++ 源码</a></p>
+<h3 id="复杂度应当怎样写？"><a href="#复杂度应当怎样写？" class="headerlink" title="复杂度应当怎样写？"></a>复杂度应当怎样写？</h3><p>设最大分数为 <code>U = 600</code>。</p>
+<ul>
+<li><strong>单次插入：O(1)</strong>，只更新一个桶。</li>
+<li><strong>单次查询：O(U + 1)</strong>，最多检查 601 个桶。</li>
+<li><strong>总时间：O(n(U + 1))</strong>，在本题中通常简写为 <code>O(600n)</code>。</li>
+<li><strong>额外空间：O(U + 1)</strong>，只存储 601 个计数，无需保存完整成绩序列。</li>
+</ul>
+<p>在最大数据下，扫描桶的次数不超过 <code>100000 × 601 = 60100000</code>。这是约 6010 万次简单的数组访问、累加和比较；提前找到答案时还会更少。</p>
+<p>由于本题的 U 固定，也可以说该算法<strong>关于 n 是线性的</strong>。但整个程序并不是 <code>O(1)</code>，我们也没有真正维护一份排好序的选手列表。</p>
+<h2 id="07-·-几个比“微优化”更值得注意的细节"><a href="#07-·-几个比“微优化”更值得注意的细节" class="headerlink" title="07 · 几个比“微优化”更值得注意的细节"></a>07 · 几个比“微优化”更值得注意的细节</h2><h3 id="1-用整数计算计划获奖人数"><a href="#1-用整数计算计划获奖人数" class="headerlink" title="1. 用整数计算计划获奖人数"></a>1. 用整数计算计划获奖人数</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">const</span> <span class="hljs-type">int</span> target = std::<span class="hljs-built_in">max</span>(<span class="hljs-number">1</span>, i * w / <span class="hljs-number">100</span>);<br></code></pre></td></tr></table></figure>
+
+<p>这里应当先乘后除。写成 <code>i * (w / 100)</code> 会让括号内的整数除法恒为 0；写成 <code>i / 100 * w</code> 也会提前丢失余数。</p>
+<p>浮点数未必能精确表示百分比，在取整边界附近可能造成偏差。本题完全可以使用整数计算，没有必要引入这种风险。</p>
+<p>本题中 <code>i * w ≤ 100000 × 99 = 9900000</code>，使用竞赛环境常见的 32 位 <code>int</code> 足够。如果迁移到更大数据范围，应重新检查溢出，并按需使用 <code>1LL * i * w / 100</code>。</p>
+<h3 id="2-数组需要包含-0-分这一桶"><a href="#2-数组需要包含-0-分这一桶" class="headerlink" title="2. 数组需要包含 0 分这一桶"></a>2. 数组需要包含 0 分这一桶</h3><p>分数共有 601 种，因此 <code>MAX_SCORE + 1</code> 个元素就足够。开到 605 也可以，但多开的空间不能替代边界分析。</p>
+<p>查询循环应写成 <code>s &gt;= 0</code>。如果漏掉 0 分，全员 0 分时就无法输出答案。</p>
+<h3 id="3-所有桶必须从-0-开始"><a href="#3-所有桶必须从-0-开始" class="headerlink" title="3. 所有桶必须从 0 开始"></a>3. 所有桶必须从 0 开始</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">std::array&lt;<span class="hljs-type">int</span>, MAX_SCORE + 1&gt; counts&#123;&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>末尾的 <code>{}</code> 将每个计数初始化为 0。局部普通数组如果不初始化，其元素值是不确定的，后续累加就会出错。</p>
+<h3 id="4-前置递增是风格选择，不是这道题的提速关键"><a href="#4-前置递增是风格选择，不是这道题的提速关键" class="headerlink" title="4. 前置递增是风格选择，不是这道题的提速关键"></a>4. 前置递增是风格选择，不是这道题的提速关键</h3><p>代码统一使用 <code>++i</code>。对于这里的 <code>int</code>，当表达式返回值未被使用时，<code>++i</code> 和 <code>i++</code> 通常会生成相同的优化代码。</p>
+<p>对某些自定义迭代器，后置递增可能需要保存旧值，因此不需要旧值时习惯使用前置递增是合理的。但这不意味着 <code>i++</code> 在本题中是性能陷阱。</p>
+<p><strong>真正改变可行性的，是减少重复排序、利用有限值域，而不是把递增运算符换一个位置。</strong></p>
+<h2 id="08-·-如果分数范围变大，还能怎么做？"><a href="#08-·-如果分数范围变大，还能怎么做？" class="headerlink" title="08 · 如果分数范围变大，还能怎么做？"></a>08 · 如果分数范围变大，还能怎么做？</h2><p>计数桶很适合本题，但也有明确的适用边界：如果分数上限变成十亿，每轮遍历整个值域就不再现实。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">总时间复杂度</th>
+<th align="left">额外空间</th>
+<th align="left">适用考虑</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">每轮重新排序</td>
+<td align="left">O(n² log n)</td>
+<td align="left">O(n)</td>
+<td align="left">适合小数据验证思路</td>
+</tr>
+<tr>
+<td align="left">有序数组插入</td>
+<td align="left">O(n²)</td>
+<td align="left">O(n)</td>
+<td align="left">二分定位后仍可能搬移大量元素</td>
+</tr>
+<tr>
+<td align="left">对顶堆</td>
+<td align="left">O(n log n)</td>
+<td align="left">O(n)</td>
+<td align="left">值域较大时的通用做法</td>
+</tr>
+<tr>
+<td align="left">计数桶 + 倒序扫描</td>
+<td align="left">O(n(U + 1))</td>
+<td align="left">O(U + 1)</td>
+<td align="left">本题值域小，实现最直接</td>
+</tr>
+<tr>
+<td align="left">树状数组 + 第 K 小查询</td>
+<td align="left">O(n log(U + 1))</td>
+<td align="left">O(U + 1)</td>
+<td align="left">能按频次查询排名，需实现二进制提升</td>
+</tr>
+</tbody></table>
+<p>树状数组在较大值域下更有优势；如果可以预先读入全部成绩，还可以离散化后依次处理。真正无法预读的数据流，则可以考虑对顶堆或支持排名查询的平衡树。</p>
+<p>这道题给我的提醒是：<strong>先同时观察数据量、值域和查询目标，再选择数据结构。</strong> 当我们只关心“第 K 名是多少分”时，记录每个分数的人数，就已经保留了解题所需的全部信息。</p>
+<hr>
+<p><em>题目来源：CSP-J 2020 第二轮入门级「直播获奖」，<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P7072">洛谷 P7072</a>。本文的过程示例为自拟，题解与代码为学习整理。</em></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="category-chain-item">算法竞赛</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CSP-J/" class="print-no-link">#CSP-J</a>
+      
+        <a href="/tags/%E8%AE%A1%E6%95%B0%E6%A1%B6/" class="print-no-link">#计数桶</a>
+      
+        <a href="/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/" class="print-no-link">#时间复杂度</a>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶</div>
+      <div>https://houyixun.github.io/2026/09/23/csp-j-2020-live-awards/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>HouYiXun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年9月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/11/hello-world/" title="Hello World">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+<title id="title">直播获奖：用 601 个桶找到第 K 名</title>
+<desc id="desc">当前成绩为 600、500、500、200，计划取前 2 名。从高分向低分扫描，600 分累计 1 人，500 分累计 3 人，所以分数线为 500。</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0c2034"/><stop offset="1" stop-color="#163e52"/></linearGradient><linearGradient id="bar" x2="0" y2="1"><stop stop-color="#64e2c1"/><stop offset="1" stop-color="#28a4a0"/></linearGradient></defs>
+<rect width="1200" height="640" rx="24" fill="url(#bg)"/>
+<g font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<text x="72" y="67" fill="#78ddc9" font-size="19" letter-spacing="3">CSP-J 2020  /  ALGORITHM NOTES</text>
+<text x="72" y="129" fill="#fff" font-size="40" font-weight="700">直播获奖：从排名到计数</text>
+<text x="72" y="172" fill="#b4c9d6" font-size="23">成绩只有 601 种，按分数统计人数就够了。</text>
+<rect x="899" y="68" width="227" height="94" rx="16" fill="#ffffff" fill-opacity=".07"/>
+<text x="924" y="104" fill="#b4c9d6" font-size="18">计划获奖人数</text><text x="924" y="140" fill="#fff" font-size="29" font-weight="700">K = 2</text>
+<path d="M 132 226 H 1050 l -12 -8 m 12 8 l -12 8" stroke="#89a5b9" stroke-width="2" fill="none"/>
+<text x="412" y="215" fill="#b4c9d6" font-size="18">从高分向低分扫描 →</text>
+<line x1="108" y1="441" x2="1084" y2="441" stroke="#647f91"/>
+<rect x="145" y="339" width="134" height="102" rx="8" fill="#6499be"/>
+<text x="212" y="380" text-anchor="middle" fill="#fff" font-size="27" font-weight="600">1 人</text>
+<rect x="492" y="266" width="164" height="175" rx="8" fill="url(#bar)"/>
+<text x="574" y="318" text-anchor="middle" fill="#073a3b" font-size="29" font-weight="700">2 人</text>
+<text x="386" y="403" text-anchor="middle" fill="#90aab9" font-size="25">···</text>
+<text x="386" y="429" text-anchor="middle" fill="#b4c9d6" font-size="16">空桶</text>
+<text x="760" y="403" text-anchor="middle" fill="#90aab9" font-size="25">···</text>
+<rect x="894" y="339" width="134" height="102" rx="8" fill="#35586f"/>
+<text x="961" y="380" text-anchor="middle" fill="#c0d2de" font-size="27">1 人</text>
+<g fill="#d4e3eb" font-size="22" text-anchor="middle"><text x="212" y="477">600 分</text><text x="574" y="477">500 分</text><text x="961" y="477">200 分</text></g>
+<text x="212" y="514" text-anchor="middle" fill="#9eb8c9" font-size="20">累计 1 &lt; K</text>
+<text x="574" y="514" text-anchor="middle" fill="#79e7cb" font-size="22" font-weight="600">累计 3 ≥ K · 找到答案</text>
+<text x="961" y="514" text-anchor="middle" fill="#9eb8c9" font-size="20">无需继续扫描</text>
+<rect x="72" y="557" width="1056" height="47" rx="10" fill="#ffffff" fill-opacity=".06"/>
+<text x="600" y="588" text-anchor="middle" fill="#dfefed" font-size="20">分数线 = 500　｜　计划 2 人，实际 3 人获奖：并列成绩自然包含在桶中。</text>
+</g></svg>
