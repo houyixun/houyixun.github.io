@@ -1,30 +1,35 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme=light>
 
 
 
 <head>
   <meta charset="UTF-8">
 
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/site-mark.svg">
+  <link rel="icon" href="/img/site-mark.svg">
+  
+    <link rel="canonical" href="https://houyixun.github.io/tags/计数桶/"/>
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <meta name="theme-color" content="#2f4154">
+  <meta name="theme-color" content="#f6f7f3">
   <meta name="author" content="HouYiXun">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="算法学习,C++,数据结构,考研复试,CSP-J,学习笔记">
   
-    <meta property="og:type" content="website">
+    <meta name="description" content="HouYiXun 的算法学习与编程实践记录。整理题解、验证代码、复盘思路，为考研复试持续积累。">
+<meta property="og:type" content="website">
 <meta property="og:title" content="标签 - 计数桶">
 <meta property="og:url" content="https://houyixun.github.io/tags/%E8%AE%A1%E6%95%B0%E6%A1%B6/index.html">
 <meta property="og:site_name" content="Path of Algorithms">
+<meta property="og:description" content="HouYiXun 的算法学习与编程实践记录。整理题解、验证代码、复盘思路，为考研复试持续积累。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="HouYiXun">
+<meta property="article:tag" content="算法学习,C++,数据结构,考研复试,CSP-J,学习笔记">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -57,11 +62,15 @@
 
 
 
+  
+<link rel="stylesheet" href="/css/site.css">
+
+
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"houyixun.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"houyixun.github.io","root":"/","version":"1.9.9","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":false,"placement":"right","headingSelector":"h2,h3","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -73,21 +82,20 @@
   
 
 
-  
+  <link rel="alternate" type="application/atom+xml" title="Path of Algorithms" href="/atom.xml">
 <meta name="generator" content="Hexo 8.1.2"></head>
 
 
 <body>
-  
+  <a class="skip-link" href="#main-content">跳到正文</a>
 
   <header>
     
-
-<div class="header-inner" style="height: 80vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+<div class="header-inner" style="height: 32vh;">
+<nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>Fluid</strong>
+      <strong>Path of Algorithms</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -119,7 +127,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
+                <span>学习归档</span>
               </a>
             </li>
           
@@ -208,7 +216,7 @@
               <a href="/archives/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-archive-fill"></i>
-                  <span>归档</span>
+                  <span>学习归档</span>
                 </div>
               </a>
             </div>
@@ -283,26 +291,21 @@
   </div>
 </div>
 
-  
 
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+<div id="banner" class="banner"
+     style="background: url('/img/site-banner.svg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.01)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="标签 - 计数桶"></span>
+            <span id="subtitle">标签 - 计数桶</span>
           
         </div>
 
         
       </div>
 
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
       
     </div>
   </div>
@@ -312,9 +315,10 @@
 
 </div>
 
+
   </header>
 
-  <main>
+  <main id="main-content" tabindex="-1">
     
       <div class="container nopadding-x-md">
         <div id="board"
@@ -389,7 +393,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+      <div class="site-footer"><span>HouYiXun · Path of Algorithms</span><span>持续学习，认真记录。</span><span><a href="/atom.xml">RSS 订阅</a> · <a href="https://github.com/houyixun" target="_blank" rel="noopener">GitHub</a></span></div><div class="site-credit">Built with <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="noopener">Fluid</a></div>
     </div>
   
   
@@ -400,38 +404,12 @@
 
   <!-- Scripts -->
   
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 
@@ -446,6 +424,10 @@
   <script  src="/js/local-search.js" ></script>
 
 
+
+
+  
+<script src="/js/site.js"></script>
 
 
 

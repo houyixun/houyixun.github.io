@@ -1,30 +1,35 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme=light>
 
 
 
 <head>
   <meta charset="UTF-8">
 
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/site-mark.svg">
+  <link rel="icon" href="/img/site-mark.svg">
+  
+    <link rel="canonical" href="https://houyixun.github.io"/>
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <meta name="theme-color" content="#2f4154">
+  <meta name="theme-color" content="#f6f7f3">
   <meta name="author" content="HouYiXun">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="算法学习,C++,数据结构,考研复试,CSP-J,学习笔记">
   
-    <meta property="og:type" content="website">
+    <meta name="description" content="HouYiXun 的算法学习与编程实践记录。整理题解、验证代码、复盘思路，为考研复试持续积累。">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Path of Algorithms">
 <meta property="og:url" content="https://houyixun.github.io/index.html">
 <meta property="og:site_name" content="Path of Algorithms">
+<meta property="og:description" content="HouYiXun 的算法学习与编程实践记录。整理题解、验证代码、复盘思路，为考研复试持续积累。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="HouYiXun">
+<meta property="article:tag" content="算法学习,C++,数据结构,考研复试,CSP-J,学习笔记">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -57,11 +62,15 @@
 
 
 
+  
+<link rel="stylesheet" href="/css/site.css">
+
+
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"houyixun.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"houyixun.github.io","root":"/","version":"1.9.9","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":false,"placement":"right","headingSelector":"h2,h3","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -73,21 +82,19 @@
   
 
 
-  
+  <link rel="alternate" type="application/atom+xml" title="Path of Algorithms" href="/atom.xml">
 <meta name="generator" content="Hexo 8.1.2"></head>
 
 
 <body>
-  
+  <a class="skip-link" href="#main-content">跳到正文</a>
 
   <header>
     
-
-<div class="header-inner" style="height: 100vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+<div class="header-inner home-header"><nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>Fluid</strong>
+      <strong>Path of Algorithms</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -119,7 +126,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
+                <span>学习归档</span>
               </a>
             </li>
           
@@ -208,7 +215,7 @@
               <a href="/archives/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-archive-fill"></i>
-                  <span>归档</span>
+                  <span>学习归档</span>
                 </div>
               </a>
             </div>
@@ -282,160 +289,65 @@
     </div>
   </div>
 </div>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="An elegant Material-Design theme for Hexo"></span>
-          
-        </div>
-
-        
-      </div>
-
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
-      
-    </div>
-  </div>
 </div>
 
-
-
-</div>
 
   </header>
 
-  <main>
+  <main id="main-content" tabindex="-1">
     
       <div class="container nopadding-x-md">
         <div id="board"
-          style="margin-top: 0">
+          >
           
           <div class="container">
             <div class="row">
               <div class="col-12 col-md-10 m-auto">
                 
-
-<h1 style="display: none">Path of Algorithms</h1>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2026/09/23/csp-j-2020-live-awards/" target="_self">
-          <img src="/img/posts/live-awards-buckets.svg" srcset="/img/loading.gif" lazyload alt="CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/09/23/csp-j-2020-live-awards/" target="_self">
-          CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt " href="/2026/09/23/csp-j-2020-live-awards/" target="_self">
-        <div>
-          10 万个动态成绩，看起来需要堆或排序；但 0～600 的分数范围，让 601 个计数桶就能解决问题。附示例推演、正确性说明、复杂度对比与 C++ 实现。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-09-23 19:00" pubdate>
-              2026-09-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="category-chain-item">算法竞赛</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/CSP-J/">#CSP-J</a>
-            
-              <a href="/tags/%E8%AE%A1%E6%95%B0%E6%A1%B6/">#计数桶</a>
-            
-              <a href="/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">#时间复杂度</a>
-            
-              <a href="/tags/C/">#C++</a>
-            
-          </div>
-        
-      </div>
-    </article>
+<div class="home-shell">
+<section class="home-hero" aria-labelledby="home-title">
+  <div class="hero-copy">
+    <div class="eyebrow"><span class="status-dot"></span> HOUYIXUN’S LEARNING JOURNAL</div>
+    <h1 id="home-title">让每一次思考，<br>都留下<span>痕迹。</span></h1>
+    <p class="hero-description">从一道题的解法，到一个知识点的理解。<br>在这里记录算法、代码与复盘，慢慢走出自己的学习路径。</p>
+    <div class="hero-actions"><a class="action-primary" href="#latest">阅读学习记录 <span aria-hidden="true">↗</span></a><a class="action-secondary" href="/about/">了解这个博客 <span aria-hidden="true">→</span></a></div>
+    <div class="hero-topics"><span>算法思维</span><span>C++ 实践</span><span>复试准备</span></div>
   </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/07/11/hello-world/" target="_self">
-          Hello World
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/07/11/hello-world/" target="_self">
-        <div>
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-07-11 19:11" pubdate>
-              2026-07-11
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
+  <div class="thinking-card" aria-label="学习过程：提出问题，尝试解法，代码验证，整理复盘">
+    <div class="card-topline"><span>THE LEARNING LOOP</span><span class="tiny-dots" aria-hidden="true">● ● ●</span></div>
+    <div class="graph-board" aria-hidden="true">
+      <svg viewBox="0 0 460 270" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#bad0be" opacity=".48"/></pattern></defs><rect width="460" height="270" fill="url(#dots)"/><g fill="none" stroke="#618b75" stroke-width="2"><path d="M83 163L175 77L291 129L379 57M175 77L202 217L291 129L376 220"/><path d="M83 163L202 217L376 220" stroke-dasharray="5 6" opacity=".5"/></g><path d="M83 163L175 77L291 129L379 57" fill="none" stroke="#c5e5a4" stroke-width="3"/><g stroke="#c5e5a4" stroke-width="2" fill="#174c3b"><circle cx="83" cy="163" r="11"/><circle cx="175" cy="77" r="11"/><circle cx="291" cy="129" r="11"/><circle cx="379" cy="57" r="11" fill="#c5e5a4"/></g><g fill="#305f4d" stroke="#638873" stroke-width="2"><circle cx="202" cy="217" r="7"/><circle cx="376" cy="220" r="7"/></g><g fill="#eaf2e7" font-size="16" font-family="sans-serif"><text x="54" y="198">问题</text><text x="149" y="48">思考</text><text x="265" y="164">验证</text><text x="355" y="30">理解</text></g></svg>
+    </div>
+    <div class="loop-caption"><span class="code-brace">{ }</span><p>把「我做过」<br>变成「我能讲清楚」。</p></div>
+    <div class="card-bottomline"><span>THINK · IMPLEMENT · REFLECT</span><span aria-hidden="true">↗</span></div>
   </div>
+</section>
+<section class="journal-stats" aria-label="学习记录统计">
+  <div><strong>1</strong><span>篇学习记录</span></div>
+  <div><strong>1</strong><span>个分类</span></div>
+  <div><strong>4</strong><span>个知识标签</span></div>
+  <div class="stat-note"><span class="eyebrow">ONE STEP AT A TIME</span><p>积累真实过程，而不只是答案。</p></div>
+</section>
+<section id="latest" class="latest-section" aria-labelledby="latest-title">
+  <div class="section-heading"><div><span class="eyebrow">LEARNING NOTES</span><h2 id="latest-title">最近的学习记录<span class="heading-dot">.</span></h2></div><a href="/archives/">查看全部归档 <span aria-hidden="true">↗</span></a></div>
+  
+  <article class="note-card">
+    <a class="note-image" href="/2026/09/23/csp-j-2020-live-awards/" aria-label="阅读：CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶"><img src="/img/posts/live-awards-buckets.svg" srcset="/img/loading.gif" lazyload alt="" width="1200" height="640" loading="lazy"></a>
+    <div class="note-body"><div class="note-meta"><time datetime="2026-09-23">2026.09.23</time><span> / </span><a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</a></div>
+    <h3><a href="/2026/09/23/csp-j-2020-live-awards/">CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶</a></h3>
+    <p>10 万个动态成绩，看起来需要堆或排序；但 0～600 的分数范围，让 601 个计数桶就能解决问题。附示例推演、正确性说明、复杂度对比与 C++ 实现。</p>
+    <div class="note-bottom"><div class="note-tags"><a href="/tags/CSP-J/">CSP-J</a><a href="/tags/%E8%AE%A1%E6%95%B0%E6%A1%B6/">计数桶</a><a href="/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">时间复杂度</a><a href="/tags/C/">C++</a></div><a class="read-note" href="/2026/09/23/csp-j-2020-live-awards/" aria-label="阅读全文：CSP-J 2020「直播获奖」：从动态排名到 601 个计数桶">阅读全文 <span aria-hidden="true">→</span></a></div></div>
+  </article>
+  
+  
 
-
-
-
+</section>
+<section class="browse-grid" aria-label="浏览方式">
+<a href="/archives/"><span class="browse-number">01 / TIMELINE</span><h3>沿着时间回看 <span aria-hidden="true">↗</span></h3><p>把零散的练习，连成可回顾的学习过程。</p></a>
+<a href="/tags/"><span class="browse-number">02 / CONNECTIONS</span><h3>顺着知识查找 <span aria-hidden="true">↗</span></h3><p>用标签关联方法，寻找不同题目之间的联系。</p></a>
+<a href="/about/"><span class="browse-number">03 / ABOUT</span><h3>关于这段积累 <span aria-hidden="true">↗</span></h3><p>为算法学习与考研复试，保留思考的痕迹。</p></a>
+</section>
+</div>
 
               </div>
             </div>
@@ -481,7 +393,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+      <div class="site-footer"><span>HouYiXun · Path of Algorithms</span><span>持续学习，认真记录。</span><span><a href="/atom.xml">RSS 订阅</a> · <a href="https://github.com/houyixun" target="_blank" rel="noopener">GitHub</a></span></div><div class="site-credit">Built with <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="noopener">Fluid</a></div>
     </div>
   
   
@@ -492,38 +404,12 @@
 
   <!-- Scripts -->
   
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 
@@ -538,6 +424,10 @@
   <script  src="/js/local-search.js" ></script>
 
 
+
+
+  
+<script src="/js/site.js"></script>
 
 
 
